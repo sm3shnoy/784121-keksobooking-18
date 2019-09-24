@@ -77,9 +77,10 @@ var ads = adsGenerator();
 var renderedAds = function (ad) {
   var adsElement = similarPinTemplate.cloneNode(true);
 
-  adsElement.querySelector('.map__pin').style = 'left: ' + ad.location.x + 'px;' + 'top: ' + ad.location.y + 'px;';
-  adsElement.querySelector('.map__pin img').src = ad.author.avatar;
-  adsElement.querySelector('.map__pin img').alt = ad.offer.title;
+  adsElement.style.left = ad.location.x + 'px';
+  adsElement.style.top = ad.location.y + 'px';
+  adsElement.querySelector('img').src = ad.author.avatar;
+  adsElement.querySelector('img').alt = ad.offer.title;
 
   return adsElement;
 };
