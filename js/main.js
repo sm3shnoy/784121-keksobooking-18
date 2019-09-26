@@ -1,5 +1,6 @@
 'use strict';
 
+/* Моковые данные */
 var MOCK = {
   author: {
     avatar: [
@@ -72,11 +73,17 @@ var MOCK = {
 // Количество предложений
 var COUNTER_ADS = 8;
 
-// Элементы на странице для отображения объявлений
+// Пины на странице
 var similarListElement = document.querySelector('.map__pins');
 var similarPinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
+
+/* Карточки предложений */
+var similarCardListElement = document.querySelector('.map__filters-container');
+var similarCardTemplate = document.querySelector('#card')
+    .content
+    .querySelector('.map__card');
 
 // Генератор случайных координат
 var randomNumber = function (min, max) {
@@ -94,7 +101,17 @@ var getData = function () {
         avatar: MOCK.author.avatar[randomNumber(0, MOCK.author.avatar.length - 1)]
       },
       offer: {
-        title: MOCK.offer.title[randomNumber(0, MOCK.offer.title.length - 1)]
+        title: MOCK.offer.title[randomNumber(0, MOCK.offer.title.length - 1)],
+        address: MOCK.offer.address,
+        price: randomNumber(MOCK.offer.price.min, MOCK.offer.price.max),
+        type: MOCK.offer.type[randomNumber(0, MOCK.offer.type.length - 1)],
+        rooms: randomNumber(MOCK.offer.rooms.min, MOCK.offer.rooms.max),
+        guests: randomNumber(MOCK.offer.guests.min, MOCK.offer.guests.max),
+        checkin: MOCK.offer.checkin[randomNumber(0, MOCK.offer.checkin.length - 1)],
+        checkout: MOCK.offer.checkout[randomNumber(0, MOCK.offer.checkout.length - 1)],
+        features: MOCK.offer.features[randomNumber(0, MOCK.offer.features.length - 1)],
+        description: MOCK.offer.description,
+        photos: MOCK.offer.photos[randomNumber(0, MOCK.offer.photos.length - 1)]
       },
       location: {
         x: randomNumber(MOCK.location.x.min, MOCK.location.x.max),
@@ -113,6 +130,7 @@ map.classList.remove('map--faded');
 // Все объявления
 var allData = getData();
 
+// Генерируем пины
 var renderedData = function (arr) {
   var adsElement = similarPinTemplate.cloneNode(true);
 
@@ -124,9 +142,30 @@ var renderedData = function (arr) {
   return adsElement;
 };
 
+/* Генерируем карточки */
+var renderedCard = function (arr) {
+  var cardElement = similarCardTemplate.cloneNode(true);
+
+  /* Карточки */
+  cardElement.querySelector('.popup__title').textContent = arr.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = arr.offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = arr.offer.price + ' р. / ночь';
+  cardElement.querySelector('.popup__type').textContent = arr.offer.type;
+  cardElement.querySelector('.popup__text--capacity').textContent = arr.offer.rooms + ' комнаты для ' + arr.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
+  cardElement.querySelector('.popup__features').textContent = arr.offer.features;
+  cardElement.querySelector('.popup__description').textContent = arr.offer.description;
+  cardElement.querySelector('.popup__photos').textContent = arr.offer.photos;
+  cardElement.querySelector('.popup__avatar').textContent = arr.author.avatar;
+};
+
+
 // Создаем фрагмент для вставки на страницу
-var fragment = document.createDocumentFragment();
+var pinFragment = document.createDocumentFragment();
+var cardFragment = document.createDocumentFragment();
 for (var i = 0; i < allData.length; i++) {
-  fragment.appendChild(renderedData(allData[i]));
+  pinFragment.appendChild(renderedData(allData[i]));
+  cardFragment.appendChild(renderedCard(allData[i]));
 }
-similarListElement.appendChild(fragment);
+similarListElement.appendChild(pinFragment);
+similarCardListElement.insertAdjacentElement('afterbegin', cardFragment);
