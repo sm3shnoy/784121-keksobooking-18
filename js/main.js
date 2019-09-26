@@ -70,6 +70,14 @@ var MOCK = {
   }
 };
 
+/* Типы жилья */
+var placeType = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
+
 // Количество предложений
 var COUNTER_ADS = 8;
 
@@ -87,8 +95,7 @@ var similarCardTemplate = document.querySelector('#card')
 
 // Генератор случайных координат
 var randomNumber = function (min, max) {
-  var rand = min + Math.random() * (max + 1 - min);
-  return Math.floor(rand);
+  return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
 // Генерируем объекты объявлений
@@ -129,7 +136,6 @@ map.classList.remove('map--faded');
 
 // Все объявления
 var allData = getData();
-var cardData = getData();
 
 // Генерируем пины
 var renderedData = function (arr) {
@@ -147,16 +153,20 @@ var renderedData = function (arr) {
 var renderedCard = function (arr) {
   var cardElement = similarCardTemplate.cloneNode(true);
 
+  var featureLi = document.createElement('li');
+  featureLi.className = 'popup__feature ' + 'popup__feature--' + arr.offer.features;
+  featureLi.innerHTML = arr.offer.features;
+
   /* Карточки */
   cardElement.querySelector('.popup__title').textContent = arr.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = arr.offer.address;
   cardElement.querySelector('.popup__text--price').textContent = arr.offer.price + ' р. / ночь';
-  cardElement.querySelector('.popup__type').textContent = arr.offer.type;
+  cardElement.querySelector('.popup__type').textContent = placeType[arr.offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = arr.offer.rooms + ' комнаты для ' + arr.offer.guests + ' гостей';
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
-  cardElement.querySelector('.popup__features').textContent = arr.offer.features;
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
+  cardElement.querySelector('.popup__features').appendChild(featureLi);
   cardElement.querySelector('.popup__description').textContent = arr.offer.description;
-  cardElement.querySelector('.popup__photos').textContent = arr.offer.photos;
+  cardElement.querySelector('.popup__photo').src = arr.offer.photos;
   cardElement.querySelector('.popup__avatar').textContent = arr.author.avatar;
 
   return cardElement;
@@ -165,12 +175,10 @@ var renderedCard = function (arr) {
 
 // Создаем фрагмент для вставки на страницу
 var pinFragment = document.createDocumentFragment();
-var cardFragment = document.createDocumentFragment();
+
 for (var i = 0; i < allData.length; i++) {
   pinFragment.appendChild(renderedData(allData[i]));
 }
-for (var j = 0; j < allData.length; j++) {
-  cardFragment.appendChild(renderedCard(cardData[j]));
-}
+
 similarListElement.appendChild(pinFragment);
-similarCardListElement.appendChild(cardFragment);
+similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(allData[0]));
