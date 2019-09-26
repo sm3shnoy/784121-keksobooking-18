@@ -129,6 +129,7 @@ map.classList.remove('map--faded');
 
 // Все объявления
 var allData = getData();
+var cardData = getData();
 
 // Генерируем пины
 var renderedData = function (arr) {
@@ -157,6 +158,8 @@ var renderedCard = function (arr) {
   cardElement.querySelector('.popup__description').textContent = arr.offer.description;
   cardElement.querySelector('.popup__photos').textContent = arr.offer.photos;
   cardElement.querySelector('.popup__avatar').textContent = arr.author.avatar;
+
+  return cardElement;
 };
 
 
@@ -165,7 +168,9 @@ var pinFragment = document.createDocumentFragment();
 var cardFragment = document.createDocumentFragment();
 for (var i = 0; i < allData.length; i++) {
   pinFragment.appendChild(renderedData(allData[i]));
-  cardFragment.appendChild(renderedCard(allData[i]));
+}
+for (var j = 0; j < allData.length; j++) {
+  cardFragment.appendChild(renderedCard(cardData[j]));
 }
 similarListElement.appendChild(pinFragment);
-similarCardListElement.insertAdjacentElement('afterbegin', cardFragment);
+similarCardListElement.appendChild(cardFragment);
