@@ -1,5 +1,6 @@
 'use strict';
 
+/* Моковые данные */
 var MOCK = {
   author: {
     avatar: [
@@ -69,19 +70,32 @@ var MOCK = {
   }
 };
 
+/* Типы жилья */
+var placeType = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
+
 // Количество предложений
 var COUNTER_ADS = 8;
 
-// Элементы на странице для отображения объявлений
+// Пины на странице
 var similarListElement = document.querySelector('.map__pins');
 var similarPinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
 
+/* Карточки предложений */
+var similarCardListElement = document.querySelector('.map__filters-container');
+var similarCardTemplate = document.querySelector('#card')
+    .content
+    .querySelector('.map__card');
+
 // Генератор случайных координат
 var randomNumber = function (min, max) {
-  var rand = min + Math.random() * (max + 1 - min);
-  return Math.floor(rand);
+  return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
 // Генерируем объекты объявлений
@@ -94,7 +108,17 @@ var getData = function () {
         avatar: MOCK.author.avatar[randomNumber(0, MOCK.author.avatar.length - 1)]
       },
       offer: {
-        title: MOCK.offer.title[randomNumber(0, MOCK.offer.title.length - 1)]
+        title: MOCK.offer.title[randomNumber(0, MOCK.offer.title.length - 1)],
+        address: MOCK.offer.address,
+        price: randomNumber(MOCK.offer.price.min, MOCK.offer.price.max),
+        type: MOCK.offer.type[randomNumber(0, MOCK.offer.type.length - 1)],
+        rooms: randomNumber(MOCK.offer.rooms.min, MOCK.offer.rooms.max),
+        guests: randomNumber(MOCK.offer.guests.min, MOCK.offer.guests.max),
+        checkin: MOCK.offer.checkin[randomNumber(0, MOCK.offer.checkin.length - 1)],
+        checkout: MOCK.offer.checkout[randomNumber(0, MOCK.offer.checkout.length - 1)],
+        features: MOCK.offer.features,
+        description: MOCK.offer.description,
+        photos: MOCK.offer.photos
       },
       location: {
         x: randomNumber(MOCK.location.x.min, MOCK.location.x.max),
@@ -113,6 +137,7 @@ map.classList.remove('map--faded');
 // Все объявления
 var allData = getData();
 
+// Генерируем пины
 var renderedData = function (arr) {
   var adsElement = similarPinTemplate.cloneNode(true);
 
@@ -124,9 +149,59 @@ var renderedData = function (arr) {
   return adsElement;
 };
 
+/* Генерируем карточки */
+var renderedCard = function (arr) {
+  var cardElement = similarCardTemplate.cloneNode(true);
+
+  // Очищаем список фотографий перед добавлением
+  cardElement.querySelector('.popup__features').innerHTML = '';
+
+  // Цикл добавления услуг
+  for (var i = 0; i < arr.offer.features.length; i++) {
+    var featureLi = document.createElement('li');
+
+    featureLi.className = 'popup__feature ' + 'popup__feature--' + arr.offer.features[i];
+    featureLi.innerHTML = arr.offer.features[i];
+
+    cardElement.querySelector('.popup__features').appendChild(featureLi);
+  }
+
+  // Очищаем список фотографий перед добавлением
+  cardElement.querySelector('.popup__photos').innerHTML = '';
+
+  // Цикл добавления фотографий жилья
+  for (var j = 0; j < arr.offer.photos.length; j++) {
+    var photoImg = document.createElement('img');
+
+    photoImg.className = 'popup__photo';
+    photoImg.src = arr.offer.photos[j];
+    photoImg.alt = 'Фотография жилья';
+    photoImg.style.width = 45 + 'px';
+    photoImg.style.height = 40 + 'px';
+
+    cardElement.querySelector('.popup__photos').appendChild(photoImg);
+  }
+
+  /* Карточки */
+  cardElement.querySelector('.popup__title').textContent = arr.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = arr.offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = arr.offer.price + ' р. / ночь';
+  cardElement.querySelector('.popup__type').textContent = placeType[arr.offer.type];
+  cardElement.querySelector('.popup__text--capacity').textContent = arr.offer.rooms + ' комнаты для ' + arr.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
+  cardElement.querySelector('.popup__description').textContent = arr.offer.description;
+  cardElement.querySelector('.popup__avatar').src = arr.author.avatar;
+
+  return cardElement;
+};
+
+
 // Создаем фрагмент для вставки на страницу
-var fragment = document.createDocumentFragment();
+var pinFragment = document.createDocumentFragment();
+
 for (var i = 0; i < allData.length; i++) {
-  fragment.appendChild(renderedData(allData[i]));
+  pinFragment.appendChild(renderedData(allData[i]));
 }
-similarListElement.appendChild(fragment);
+
+similarListElement.appendChild(pinFragment);
+similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(allData[0]));
