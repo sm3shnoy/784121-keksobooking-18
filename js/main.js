@@ -153,6 +153,9 @@ var renderedData = function (arr) {
 var renderedCard = function (arr) {
   var cardElement = similarCardTemplate.cloneNode(true);
 
+  // Очищаем список фотографий перед добавлением
+  cardElement.querySelector('.popup__features').innerHTML = '';
+
   // Цикл добавления услуг
   for (var i = 0; i < arr.offer.features.length; i++) {
     var featureLi = document.createElement('li');
@@ -164,10 +167,7 @@ var renderedCard = function (arr) {
   }
 
   // Очищаем список фотографий перед добавлением
-  var photos = cardElement.querySelector('.popup__photos');
-  var photo = cardElement.querySelector('.popup__photo');
-
-  photos.removeChild(photo);
+  cardElement.querySelector('.popup__photos').innerHTML = '';
 
   // Цикл добавления фотографий жилья
   for (var j = 0; j < arr.offer.photos.length; j++) {
