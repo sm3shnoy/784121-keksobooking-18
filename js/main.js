@@ -130,10 +130,6 @@ var getData = function () {
   return arr;
 };
 
-// Убираем класс faded у блока map
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-
 // Все объявления
 var allData = getData();
 
@@ -203,5 +199,102 @@ for (var i = 0; i < allData.length; i++) {
   pinFragment.appendChild(renderedData(allData[i]));
 }
 
-similarListElement.appendChild(pinFragment);
-similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(allData[0]));
+// similarListElement.appendChild(pinFragment);
+// similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(allData[0]));
+
+var ENTER_KEYCODE = 13;
+
+// Делаем группы полей неактивными
+var formElement = document.querySelector('.ad-form--disabled');
+var mapFilters = document.querySelector('.map__filters');
+var map = document.querySelector('.map');
+var adForm = document.querySelector('.ad-form');
+
+
+var elementsDisabled = function (elements) {
+  for (var it = 0; it < elements.length; it++) {
+    elements[it].disabled = true;
+  }
+};
+
+var elementsEnabled = function (elements) {
+  for (var it = 0; it < elements.length; it++) {
+    elements[it].disabled = false;
+  }
+};
+
+elementsDisabled(formElement);
+elementsDisabled(mapFilters);
+
+// Взаимодействие с меткой на карте
+var mainPin = document.querySelector('.map__pin--main');
+var addressField = document.querySelector('#address');
+
+// Делаем активными элементы на странице при взаимодействии с пином на карте
+var pinEnable = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  elementsEnabled(formElement);
+  elementsEnabled(mapFilters);
+
+  addressField.value = 'X: ' + mainPin.style.left + ' Y: ' + mainPin.style.top;
+};
+
+mainPin.addEventListener('mousedown', function () {
+  pinEnable();
+});
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    pinEnable();
+  }
+});
+
+// Валидация формы
+var adTitle = document.querySelector('#title');
+var adPrice = document.querySelector('#price');
+var typePlace = document.querySelector('#type');
+
+// Проверка валидности заголовка
+adTitle.addEventListener('invalid', function () {
+  if (adTitle.validity.tooShort) {
+    adTitle.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
+  } else if (adTitle.validity.tooLong) {
+    adTitle.setCustomValidity('Заголовок должен состоять максимум из 100 символов');
+  } else if (adTitle.validity.valueMissing) {
+    adTitle.setCustomValidity('Обязательное поле');
+  } else {
+    adTitle.setCustomValidity('');
+  }
+});
+
+// Проверка валидности цены
+adPrice.addEventListener('invalid', function () {
+  if (adPrice.validity.tooLong) {
+    adPrice.setCustomValidity('Максимальная цена 1 000 000');
+  } else if (adPrice.validity.typeMismatch) {
+    adPrice.setCustomValidity('Используйте только числа');
+  } else if (adPrice.validity.valueMissing) {
+    adPrice.setCustomValidity('Обязательное поле');
+  } else {
+    adPrice.setCustomValidity('');
+  }
+});
+
+// Проверка валидности типа жилья
+typePlace.addEventListener('change', function () {
+  var price = 0;
+
+  if (typePlace.value === 'bungalo') {
+    price = 0;
+  } else if (typePlace.value === 'flat') {
+    price = 1000;
+  } else if (typePlace.value === 'house') {
+    price = 5000;
+  } else {
+    price = 10000;
+  }
+
+  adPrice.placeholder = price;
+  adPrice.min = price;
+});
