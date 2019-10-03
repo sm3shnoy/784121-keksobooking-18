@@ -82,7 +82,7 @@ var MOCK = {
 var COUNTER_ADS = 8;
 
 // Пины на странице
-// var similarListElement = document.querySelector('.map__pins');
+var similarListElement = document.querySelector('.map__pins');
 var similarPinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
@@ -199,7 +199,6 @@ for (var i = 0; i < allData.length; i++) {
   pinFragment.appendChild(renderedData(allData[i]));
 }
 
-// similarListElement.appendChild(pinFragment);
 // similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(allData[0]));
 
 var ENTER_KEYCODE = 13;
@@ -237,7 +236,11 @@ var pinEnable = function () {
   elementsEnabled(formElement);
   elementsEnabled(mapFilters);
 
-  addressField.value = 'X: ' + mainPin.style.left + ' Y: ' + mainPin.style.top;
+  // Добавляем все возможные пины на карту
+  similarListElement.appendChild(pinFragment);
+
+  addressField.value = mainPin.style.left + ' ' + mainPin.style.top;
+  addressField.setAttribute('readonly', true);
 };
 
 mainPin.addEventListener('mousedown', function () {
@@ -297,4 +300,58 @@ typePlace.addEventListener('change', function () {
 
   adPrice.placeholder = price;
   adPrice.min = price;
+});
+
+// Проверка валидности комната - гость
+var roomCount = document.querySelector('#room_number');
+var guestsCount = document.querySelector('#capacity');
+var guestSelectOption = guestsCount.querySelectorAll('option');
+
+guestsCount.value = '1';
+
+for (i = 0; i < guestsCount.length; i++) {
+  if (guestsCount[i].value !== '1') {
+    guestSelectOption[i].disabled = true;
+  }
+}
+
+roomCount.addEventListener('change', function () {
+  // Делаем доступными все поля при каждом изменении значения в селекте
+  for (i = 0; i < guestsCount.length; i++) {
+    guestSelectOption[i].disabled = false;
+  }
+
+  if (roomCount.value === '1') {
+    guestsCount.value = '1';
+
+    for (i = 0; i < guestsCount.length; i++) {
+      if (guestsCount[i].value !== '1') {
+        guestSelectOption[i].disabled = true;
+      }
+    }
+  } else if (roomCount.value === '2') {
+    guestsCount.value = '2';
+
+    for (i = 0; i < guestsCount.length; i++) {
+      if (guestsCount[i].value !== '2' && guestsCount[i].value !== '1') {
+        guestSelectOption[i].disabled = true;
+      }
+    }
+  } else if (roomCount.value === '3') {
+    guestsCount.value = '3';
+
+    for (i = 0; i < guestsCount.length; i++) {
+      if (guestsCount[i].value !== '3' && guestsCount[i].value !== '2' && guestsCount[i].value !== '1') {
+        guestSelectOption[i].disabled = true;
+      }
+    }
+  } else {
+    for (i = 0; i < guestsCount.length; i++) {
+      guestsCount.value = '0';
+
+      if (guestsCount[i].value !== '0') {
+        guestSelectOption[i].disabled = true;
+      }
+    }
+  }
 });
