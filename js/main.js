@@ -71,12 +71,12 @@ var MOCK = {
 };
 
 /* Типы жилья */
-var placeType = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало'
-};
+// var placeType = {
+//   palace: 'Дворец',
+//   flat: 'Квартира',
+//   house: 'Дом',
+//   bungalo: 'Бунгало'
+// };
 
 // Количество предложений
 var COUNTER_ADS = 8;
@@ -88,10 +88,10 @@ var similarPinTemplate = document.querySelector('#pin')
     .querySelector('.map__pin');
 
 /* Карточки предложений */
-var similarCardListElement = document.querySelector('.map__filters-container');
-var similarCardTemplate = document.querySelector('#card')
-    .content
-    .querySelector('.map__card');
+// var similarCardListElement = document.querySelector('.map__filters-container');
+// var similarCardTemplate = document.querySelector('#card')
+//     .content
+//     .querySelector('.map__card');
 
 // Генератор случайных координат
 var randomNumber = function (min, max) {
@@ -130,15 +130,11 @@ var getData = function () {
   return arr;
 };
 
-// Убираем класс faded у блока map
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-
 // Все объявления
 var allData = getData();
 
 // Генерируем пины
-var renderedData = function (arr) {
+var renderedPins = function (arr) {
   var adsElement = similarPinTemplate.cloneNode(true);
 
   adsElement.style.left = arr.location.x + 'px';
@@ -150,58 +146,169 @@ var renderedData = function (arr) {
 };
 
 /* Генерируем карточки */
-var renderedCard = function (arr) {
-  var cardElement = similarCardTemplate.cloneNode(true);
+// var renderedCard = function (arr) {
+//   var cardElement = similarCardTemplate.cloneNode(true);
 
-  // Очищаем список фотографий перед добавлением
-  cardElement.querySelector('.popup__features').innerHTML = '';
+//   // Очищаем список фотографий перед добавлением
+//   cardElement.querySelector('.popup__features').innerHTML = '';
 
-  // Цикл добавления услуг
-  for (var i = 0; i < arr.offer.features.length; i++) {
-    var featureLi = document.createElement('li');
+//   // Цикл добавления услуг
+//   for (var i = 0; i < arr.offer.features.length; i++) {
+//     var featureLi = document.createElement('li');
 
-    featureLi.className = 'popup__feature ' + 'popup__feature--' + arr.offer.features[i];
-    featureLi.innerHTML = arr.offer.features[i];
+//     featureLi.className = 'popup__feature ' + 'popup__feature--' + arr.offer.features[i];
+//     featureLi.innerHTML = arr.offer.features[i];
 
-    cardElement.querySelector('.popup__features').appendChild(featureLi);
-  }
+//     cardElement.querySelector('.popup__features').appendChild(featureLi);
+//   }
 
-  // Очищаем список фотографий перед добавлением
-  cardElement.querySelector('.popup__photos').innerHTML = '';
+//   // Очищаем список фотографий перед добавлением
+//   cardElement.querySelector('.popup__photos').innerHTML = '';
 
-  // Цикл добавления фотографий жилья
-  for (var j = 0; j < arr.offer.photos.length; j++) {
-    var photoImg = document.createElement('img');
+//   // Цикл добавления фотографий жилья
+//   for (var j = 0; j < arr.offer.photos.length; j++) {
+//     var photoImg = document.createElement('img');
 
-    photoImg.className = 'popup__photo';
-    photoImg.src = arr.offer.photos[j];
-    photoImg.alt = 'Фотография жилья';
-    photoImg.style.width = 45 + 'px';
-    photoImg.style.height = 40 + 'px';
+//     photoImg.className = 'popup__photo';
+//     photoImg.src = arr.offer.photos[j];
+//     photoImg.alt = 'Фотография жилья';
+//     photoImg.style.width = 45 + 'px';
+//     photoImg.style.height = 40 + 'px';
 
-    cardElement.querySelector('.popup__photos').appendChild(photoImg);
-  }
+//     cardElement.querySelector('.popup__photos').appendChild(photoImg);
+//   }
 
-  /* Карточки */
-  cardElement.querySelector('.popup__title').textContent = arr.offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = arr.offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = arr.offer.price + ' р. / ночь';
-  cardElement.querySelector('.popup__type').textContent = placeType[arr.offer.type];
-  cardElement.querySelector('.popup__text--capacity').textContent = arr.offer.rooms + ' комнаты для ' + arr.offer.guests + ' гостей';
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
-  cardElement.querySelector('.popup__description').textContent = arr.offer.description;
-  cardElement.querySelector('.popup__avatar').src = arr.author.avatar;
+//   /* Карточки */
+//   cardElement.querySelector('.popup__title').textContent = arr.offer.title;
+//   cardElement.querySelector('.popup__text--address').textContent = arr.offer.address;
+//   cardElement.querySelector('.popup__text--price').textContent = arr.offer.price + ' р. / ночь';
+//   cardElement.querySelector('.popup__type').textContent = placeType[arr.offer.type];
+//   cardElement.querySelector('.popup__text--capacity').textContent = arr.offer.rooms + ' комнаты для ' + arr.offer.guests + ' гостей';
+//   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
+//   cardElement.querySelector('.popup__description').textContent = arr.offer.description;
+//   cardElement.querySelector('.popup__avatar').src = arr.author.avatar;
 
-  return cardElement;
-};
+//   return cardElement;
+// };
 
 
 // Создаем фрагмент для вставки на страницу
 var pinFragment = document.createDocumentFragment();
 
 for (var i = 0; i < allData.length; i++) {
-  pinFragment.appendChild(renderedData(allData[i]));
+  pinFragment.appendChild(renderedPins(allData[i]));
 }
 
-similarListElement.appendChild(pinFragment);
-similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(allData[0]));
+// similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(allData[0]));
+
+var ENTER_KEYCODE = 13;
+
+// Делаем группы полей неактивными
+var formElement = document.querySelector('.ad-form--disabled');
+var mapFilters = document.querySelector('.map__filters');
+var map = document.querySelector('.map');
+var adForm = document.querySelector('.ad-form');
+
+
+var elementsDisabled = function (elements) {
+  for (var it = 0; it < elements.length; it++) {
+    elements[it].disabled = true;
+  }
+};
+
+var elementsEnabled = function (elements) {
+  for (var it = 0; it < elements.length; it++) {
+    elements[it].disabled = false;
+  }
+};
+
+elementsDisabled(formElement);
+elementsDisabled(mapFilters);
+
+// Взаимодействие с меткой на карте
+var mainPin = document.querySelector('.map__pin--main');
+var addressField = document.querySelector('#address');
+
+// Делаем активными элементы на странице при взаимодействии с пином на карте
+var pinEnable = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  elementsEnabled(formElement);
+  elementsEnabled(mapFilters);
+
+  // Добавляем все возможные пины на карту
+  similarListElement.appendChild(pinFragment);
+
+  addressField.value = mainPin.style.left + ' ' + mainPin.style.top;
+  addressField.setAttribute('readonly', true);
+};
+
+mainPin.addEventListener('mousedown', function () {
+  pinEnable();
+});
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    pinEnable();
+  }
+});
+
+// Валидация формы
+var adPrice = document.querySelector('#price');
+var typePlace = document.querySelector('#type');
+
+adPrice.placeholder = 1000;
+
+// Проверка валидности типа жилья
+typePlace.addEventListener('change', function () {
+  var price = 0;
+
+  if (typePlace.value === 'bungalo') {
+    price = 0;
+  } else if (typePlace.value === 'flat') {
+    price = 1000;
+  } else if (typePlace.value === 'house') {
+    price = 5000;
+  } else {
+    price = 10000;
+  }
+
+  adPrice.placeholder = price;
+  adPrice.min = price;
+});
+
+// Проверка валидности комната - гость
+var roomCount = document.querySelector('#room_number');
+var guestsCount = document.querySelector('#capacity');
+var guestSelectOption = guestsCount.querySelectorAll('option');
+
+// Создаем объект количество комнат = определенное количество гостей
+var roomsCount = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0]
+};
+
+var checkCountRoom = function (value) {
+  // Блокируем выбор количества гостей
+  guestSelectOption.forEach(function (option) {
+    option.disabled = true;
+  });
+
+  // Разблокируем количество гостей в соответствии с выбранным количеством комнат
+  roomsCount[value].forEach(function (userChoice) {
+    guestSelectOption.forEach(function (roomsCountUserChoice) {
+      if (Number(roomsCountUserChoice.value) === userChoice) {
+        roomsCountUserChoice.disabled = false;
+        roomsCountUserChoice.selected = true;
+      }
+    });
+  });
+};
+
+roomCount.addEventListener('change', function (evt) {
+  checkCountRoom(evt.target.value);
+});
+
+checkCountRoom(roomCount.value);
