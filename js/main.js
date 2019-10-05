@@ -134,7 +134,7 @@ var getData = function () {
 var allData = getData();
 
 // Генерируем пины
-var renderedData = function (arr) {
+var renderedPins = function (arr) {
   var adsElement = similarPinTemplate.cloneNode(true);
 
   adsElement.style.left = arr.location.x + 'px';
@@ -196,7 +196,7 @@ var renderedData = function (arr) {
 var pinFragment = document.createDocumentFragment();
 
 for (var i = 0; i < allData.length; i++) {
-  pinFragment.appendChild(renderedData(allData[i]));
+  pinFragment.appendChild(renderedPins(allData[i]));
 }
 
 // similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(allData[0]));
@@ -256,6 +256,8 @@ mainPin.addEventListener('keydown', function (evt) {
 // Валидация формы
 var adPrice = document.querySelector('#price');
 var typePlace = document.querySelector('#type');
+
+adPrice.placeholder = 1000;
 
 // Проверка валидности типа жилья
 typePlace.addEventListener('change', function () {
