@@ -254,35 +254,8 @@ mainPin.addEventListener('keydown', function (evt) {
 });
 
 // Валидация формы
-var adTitle = document.querySelector('#title');
 var adPrice = document.querySelector('#price');
 var typePlace = document.querySelector('#type');
-
-// Проверка валидности заголовка
-adTitle.addEventListener('invalid', function () {
-  if (adTitle.validity.tooShort) {
-    adTitle.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
-  } else if (adTitle.validity.tooLong) {
-    adTitle.setCustomValidity('Заголовок должен состоять максимум из 100 символов');
-  } else if (adTitle.validity.valueMissing) {
-    adTitle.setCustomValidity('Обязательное поле');
-  } else {
-    adTitle.setCustomValidity('');
-  }
-});
-
-// Проверка валидности цены
-adPrice.addEventListener('invalid', function () {
-  if (adPrice.validity.tooLong) {
-    adPrice.setCustomValidity('Максимальная цена 1 000 000');
-  } else if (adPrice.validity.typeMismatch) {
-    adPrice.setCustomValidity('Используйте только числа');
-  } else if (adPrice.validity.valueMissing) {
-    adPrice.setCustomValidity('Обязательное поле');
-  } else {
-    adPrice.setCustomValidity('');
-  }
-});
 
 // Проверка валидности типа жилья
 typePlace.addEventListener('change', function () {
@@ -307,51 +280,33 @@ var roomCount = document.querySelector('#room_number');
 var guestsCount = document.querySelector('#capacity');
 var guestSelectOption = guestsCount.querySelectorAll('option');
 
-guestsCount.value = '1';
+// Создаем объект количество комнат = определенное количество гостей
+var roomsCount = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0]
+};
 
-for (i = 0; i < guestsCount.length; i++) {
-  if (guestsCount[i].value !== '1') {
-    guestSelectOption[i].disabled = true;
-  }
-}
+var checkCountRoom = function (value) {
+  // Блокируем выбор количества гостей
+  guestSelectOption.forEach(function (option) {
+    option.disabled = true;
+  });
 
-roomCount.addEventListener('change', function () {
-  // Делаем доступными все поля при каждом изменении значения в селекте
-  for (i = 0; i < guestsCount.length; i++) {
-    guestSelectOption[i].disabled = false;
-  }
-
-  if (roomCount.value === '1') {
-    guestsCount.value = '1';
-
-    for (i = 0; i < guestsCount.length; i++) {
-      if (guestsCount[i].value !== '1') {
-        guestSelectOption[i].disabled = true;
+  // Разблокируем количество гостей в соответствии с выбранным количеством комнат
+  roomsCount[value].forEach(function (userChoice) {
+    guestSelectOption.forEach(function (roomsCountUserChoice) {
+      if (Number(roomsCountUserChoice.value) === userChoice) {
+        roomsCountUserChoice.disabled = false;
+        roomsCountUserChoice.selected = true;
       }
-    }
-  } else if (roomCount.value === '2') {
-    guestsCount.value = '2';
+    });
+  });
+};
 
-    for (i = 0; i < guestsCount.length; i++) {
-      if (guestsCount[i].value !== '2' && guestsCount[i].value !== '1') {
-        guestSelectOption[i].disabled = true;
-      }
-    }
-  } else if (roomCount.value === '3') {
-    guestsCount.value = '3';
-
-    for (i = 0; i < guestsCount.length; i++) {
-      if (guestsCount[i].value !== '3' && guestsCount[i].value !== '2' && guestsCount[i].value !== '1') {
-        guestSelectOption[i].disabled = true;
-      }
-    }
-  } else {
-    for (i = 0; i < guestsCount.length; i++) {
-      guestsCount.value = '0';
-
-      if (guestsCount[i].value !== '0') {
-        guestSelectOption[i].disabled = true;
-      }
-    }
-  }
+roomCount.addEventListener('change', function (evt) {
+  checkCountRoom(evt.target.value);
 });
+
+checkCountRoom(roomCount.value);
