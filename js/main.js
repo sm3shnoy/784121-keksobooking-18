@@ -149,7 +149,7 @@ var renderedPins = function (arr) {
   // При клике на pin показываем карточку
   var openCardClickHandler = function (evt) {
     if (evt.target) {
-      similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(allData[0]));
+      similarCardListElement.insertAdjacentElement('afterbegin', renderedCard(arr));
     }
   };
 
