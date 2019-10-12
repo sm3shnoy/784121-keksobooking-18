@@ -73,6 +73,11 @@
         y: moveEvt.clientY
       };
 
+      var pinSize = {
+        width: 65,
+        height: 65 + 22
+      };
+
       var pinMoveLimit = {
         top: windowLimit.y.min - mainPin.offsetHeight,
         bottom: windowLimit.y.max - mainPin.offsetHeight,
@@ -81,8 +86,8 @@
       };
 
       var pinPosition = {
-        x: mainPin.offsetLeft - shift.x,
-        y: mainPin.offsetTop - shift.y
+        x: mainPin.offsetLeft - shift.x - pinSize.width / 2,
+        y: mainPin.offsetTop - shift.y + pinSize.height / 2
       };
 
       if (pinPosition.x >= pinMoveLimit.left && pinPosition.x <= pinMoveLimit.right) {
