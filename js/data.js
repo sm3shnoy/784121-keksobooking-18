@@ -119,6 +119,7 @@
 
   window.data = {
     placeType: placeType,
-    allData: allData
+    allData: allData,
+    location: MOCK.location
   };
 })();
