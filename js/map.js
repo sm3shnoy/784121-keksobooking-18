@@ -30,16 +30,13 @@
     window.form.elementsEnabled(window.form.formElement);
     window.form.elementsEnabled(mapFilters);
 
-    // Создаем фрагмент для вставки на страницу
+    // Добавляем метки на карту
     var successHandler = (function (ads) {
-      var pinFragment = document.createDocumentFragment();
+      var mapPins = document.querySelector('.map__pins');
 
       for (var i = 0; i < window.data.allData.length; i++) {
-        pinFragment.appendChild(window.pin.renderedPins(ads[i]));
+        mapPins.appendChild(window.pin.renderedPins(ads[i]));
       }
-
-      // Добавляем все возможные пины на карту
-      window.pin.similarListElement.appendChild(pinFragment);
     });
 
     var errorHandler = function () {
@@ -52,24 +49,28 @@
     window.backend.load(successHandler, errorHandler);
 
     addressField.setAttribute('readonly', true);
+
+    mainPin.removeEventListener('keydown', pinEnableEnterPressHandler);
+    mainPin.removeEventListener('click', pinEnableClickdownHandler);
   };
 
-  mainPin.addEventListener('mousedown', function () {
-    pinEnable();
-  });
-
-  mainPin.addEventListener('keydown', function (evt) {
+  var pinEnableEnterPressHandler = function (evt) {
     if (evt.keyCode === window.util.ENTER_KEYCODE) {
       pinEnable();
     }
-  });
+  };
 
-  // Создаем фрагмент для вставки на страницу
-  // var pinFragment = document.createDocumentFragment();
+  var pinEnableClickdownHandler = function () {
+    pinEnable();
+  };
 
-  // for (var i = 0; i < window.data.allData.length; i++) {
-  //   pinFragment.appendChild(window.pin.renderedPins(window.data.allData[i]));
-  // }
+  var showPin = function () {
+    mainPin.addEventListener('keydown', pinEnableEnterPressHandler);
+    mainPin.addEventListener('click', pinEnableClickdownHandler);
+  };
+
+  showPin();
+
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
