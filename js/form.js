@@ -86,20 +86,60 @@
     timeCheck(timeInOption, evt.currentTarget.value);
   });
 
-  window.form = {
-    formElement: formElement,
-
-    elementsDisabled: function (elements) {
-      for (var it = 0; it < elements.length; it++) {
-        elements[it].disabled = true;
-      }
-    },
-
-    elementsEnabled: function (elements) {
-      for (var it = 0; it < elements.length; it++) {
-        elements[it].disabled = false;
-      }
+  var elementsDisabled = function (elements) {
+    for (var it = 0; it < elements.length; it++) {
+      elements[it].disabled = true;
     }
+  };
+
+  var elementsEnabled = function (elements) {
+    for (var it = 0; it < elements.length; it++) {
+      elements[it].disabled = false;
+    }
+  };
+
+  // Сообщение об успешной отправке
+  var successSend = function () {
+    var templateSuccess = document.querySelector('#success').content.querySelector('.success');
+    var successElement = templateSuccess.cloneNode(true);
+    window.pin.cleanPins();
+    window.map.main.appendChild(successElement);
+
+
+    // Закрытие успешного сообщения
+    var successMessage = document.querySelector('.success');
+
+    successMessage.addEventListener('click', function () {
+      successMessageCloseClickHandler();
+    });
+
+    var escPressKeydownHandler = function (evt) {
+      if (evt.keyCode === window.util.ESC_KEYCODE) {
+        successMessageCloseClickHandler();
+      }
+    };
+
+    document.addEventListener('keydown', escPressKeydownHandler);
+
+    var successMessageCloseClickHandler = function () {
+      window.map.main.removeChild(successElement);
+      document.removeEventListener('keydown', escPressKeydownHandler);
+    };
+  };
+
+  // Кнопка отправки формы
+  var form = document.querySelector('.ad-form');
+
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), successSend, window.map.errorHandler);
+    evt.preventDefault();
+  });
+
+  window.form = {
+    form: form,
+    formElement: formElement,
+    elementsDisabled: elementsDisabled,
+    elementsEnabled: elementsEnabled
   };
 
 })();

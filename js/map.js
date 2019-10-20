@@ -23,28 +23,57 @@
     }
   };
 
+  // Добавляем метки на карту
+  var successHandler = (function (ads) {
+    var mapPins = document.querySelector('.map__pins');
+
+    for (var i = 0; i < window.data.allData.length; i++) {
+      mapPins.appendChild(window.pin.renderedPins(ads[i]));
+    }
+  });
+
+  var errorHandler = function () {
+    var templateError = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = templateError.cloneNode(true);
+
+    main.appendChild(errorElement);
+
+    // Закрытие окна ошибки
+    var errorClose = document.querySelector('.error__button');
+    var errorWrapper = document.querySelector('.error');
+
+    errorClose.addEventListener('click', function () {
+      errorMessageCloseClickHandler();
+    });
+
+    var errorWrapperCloseClickHandler = function () {
+      errorMessageCloseClickHandler();
+    };
+
+    errorWrapper.addEventListener('click', errorWrapperCloseClickHandler);
+
+    var escPressKeydownHandler = function (evt) {
+      if (evt.keyCode === window.util.ESC_KEYCODE) {
+        errorMessageCloseClickHandler();
+      }
+    };
+
+    document.addEventListener('keydown', escPressKeydownHandler);
+
+
+    var errorMessageCloseClickHandler = function () {
+      main.removeChild(errorElement);
+      document.removeEventListener('keydown', escPressKeydownHandler);
+      document.removeEventListener('keydown', errorWrapperCloseClickHandler);
+    };
+  };
+
   // Делаем активными элементы на странице при взаимодействии с пином на карте
   var pinEnable = function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     window.form.elementsEnabled(window.form.formElement);
     window.form.elementsEnabled(mapFilters);
-
-    // Добавляем метки на карту
-    var successHandler = (function (ads) {
-      var mapPins = document.querySelector('.map__pins');
-
-      for (var i = 0; i < window.data.allData.length; i++) {
-        mapPins.appendChild(window.pin.renderedPins(ads[i]));
-      }
-    });
-
-    var errorHandler = function () {
-      var templateError = document.querySelector('#error').content.querySelector('.error');
-      var errorElement = templateError.cloneNode(true);
-
-      main.appendChild(errorElement);
-    };
 
     window.backend.load(successHandler, errorHandler);
 
@@ -70,7 +99,6 @@
   };
 
   showPin();
-
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -132,5 +160,14 @@
     document.addEventListener('mousemove', mainPinMousemoveHandler);
     document.addEventListener('mouseup', mainPinMouseupHandler);
   });
+
+  window.map = {
+    mapFilters: mapFilters,
+    map: map,
+    main: main,
+    showPin: showPin,
+    errorHandler: errorHandler,
+    successHandler: successHandler
+  };
 
 })();
