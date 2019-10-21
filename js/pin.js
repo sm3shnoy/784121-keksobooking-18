@@ -57,7 +57,12 @@
       }
     }
 
+    var card = document.querySelector('.map__card');
+
+    card.remove();
+
     window.map.showPin();
+    window.form.checkCountRoom(window.form.roomCount.value);
   };
 
   window.pin = {

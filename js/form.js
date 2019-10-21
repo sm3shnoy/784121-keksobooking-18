@@ -139,7 +139,9 @@
     form: form,
     formElement: formElement,
     elementsDisabled: elementsDisabled,
-    elementsEnabled: elementsEnabled
+    elementsEnabled: elementsEnabled,
+    checkCountRoom: checkCountRoom,
+    roomCount: roomCount
   };
 
 })();
