@@ -17,10 +17,14 @@
     adsElement.querySelector('img').alt = arr.offer.title;
 
     // При клике на pin показываем карточку
-    var openCardClickHandler = function (evt) {
-      if (evt.target) {
-        window.card.similarCardListElement.insertAdjacentElement('afterbegin', window.card.renderedCard(arr));
+    var openCardClickHandler = function () {
+      var card = document.querySelector('.map__card');
+
+      if (card) {
+        card.remove();
       }
+
+      window.card.similarCardListElement.insertAdjacentElement('afterbegin', window.card.renderedCard(arr));
     };
 
     adsElement.addEventListener('click', function (evt) {
