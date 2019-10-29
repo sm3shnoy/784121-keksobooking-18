@@ -24,13 +24,16 @@
   };
 
   // Добавляем метки на карту
-  var successHandler = (function (ads) {
+  var successHandler = function (ads) {
     var mapPins = document.querySelector('.map__pins');
+    window.data = ads;
 
-    for (var i = 0; i < window.data.allData.length; i++) {
-      mapPins.appendChild(window.pin.renderedPins(ads[i]));
+    var filteredAds = window.filter.filters(ads);
+
+    for (var i = 0; i < filteredAds.length; i++) {
+      mapPins.appendChild(window.pin.renderedPins(filteredAds[i]));
     }
-  });
+  };
 
   var errorHandler = function () {
     var templateError = document.querySelector('#error').content.querySelector('.error');
@@ -100,6 +103,15 @@
 
   showPin();
 
+  // Высота острого конца маркера
+  var heightPoint = 22;
+
+  // Размеры маркера
+  var pinSize = {
+    width: 65,
+    height: 65 + heightPoint
+  };
+
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -121,11 +133,6 @@
         y: moveEvt.clientY
       };
 
-      var pinSize = {
-        width: 65,
-        height: 65 + 22
-      };
-
       var pinMoveLimit = {
         top: windowLimit.y.min - mainPin.offsetHeight,
         bottom: windowLimit.y.max - mainPin.offsetHeight,
@@ -135,7 +142,7 @@
 
       var pinPosition = {
         x: mainPin.offsetLeft - shift.x - pinSize.width / 2,
-        y: mainPin.offsetTop - shift.y + pinSize.height / 2
+        y: mainPin.offsetTop - shift.y - pinSize.height / 2
       };
 
       if (pinPosition.x >= pinMoveLimit.left && pinPosition.x <= pinMoveLimit.right) {
