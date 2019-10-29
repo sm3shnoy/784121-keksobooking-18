@@ -24,7 +24,7 @@
     elements.forEach(function (it) {
       it.remove();
     });
-  }
+  };
 
   window.filter = {
     filters: filters
