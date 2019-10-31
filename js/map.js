@@ -25,14 +25,16 @@
 
   // Добавляем метки на карту
   var successHandler = function (ads) {
+    window.adsData = ads;
+    renderPins(window.filter.filters(ads));
+  };
+
+  var renderPins = function (ads) {
     var mapPins = document.querySelector('.map__pins');
-    window.data = ads;
 
-    var filteredAds = window.filter.filters(ads);
-
-    for (var i = 0; i < filteredAds.length; i++) {
-      mapPins.appendChild(window.pin.renderedPins(filteredAds[i]));
-    }
+    ads.forEach(function (it) {
+      mapPins.appendChild(window.pin.createPins(it));
+    });
   };
 
   var errorHandler = function () {
@@ -174,7 +176,8 @@
     main: main,
     showPin: showPin,
     errorHandler: errorHandler,
-    successHandler: successHandler
+    successHandler: successHandler,
+    renderPins: renderPins
   };
 
 })();

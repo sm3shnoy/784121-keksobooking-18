@@ -16,7 +16,8 @@
 
   mapFilters.addEventListener('change', function () {
     removeElements();
-    window.map.successHandler(window.data);
+
+    window.map.renderPins(filters(window.adsData));
   });
 
   var removeElements = function () {

@@ -8,7 +8,7 @@
       .querySelector('.map__pin');
 
   // Генерируем пины
-  var renderedPins = function (arr) {
+  var createPins = function (arr) {
     var adsElement = similarPinTemplate.cloneNode(true);
 
     adsElement.style.left = arr.location.x + 'px';
@@ -67,7 +67,7 @@
 
   window.pin = {
     similarListElement: similarListElement,
-    renderedPins: renderedPins,
+    createPins: createPins,
     cleanPins: cleanPins
   };
 
