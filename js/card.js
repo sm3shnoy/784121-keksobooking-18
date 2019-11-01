@@ -57,7 +57,9 @@
       var cardClose = cardElement.querySelector('.popup__close');
 
       var cardCloseClickHandler = function () {
-        cardElement.classList.add('hidden');
+        var card = document.querySelector('.map__card');
+
+        card.remove();
       };
 
       cardClose.addEventListener('click', function () {

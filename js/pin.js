@@ -8,7 +8,7 @@
       .querySelector('.map__pin');
 
   // Генерируем пины
-  var renderedPins = function (arr) {
+  var createPins = function (arr) {
     var adsElement = similarPinTemplate.cloneNode(true);
 
     adsElement.style.left = arr.location.x + 'px';
@@ -17,10 +17,14 @@
     adsElement.querySelector('img').alt = arr.offer.title;
 
     // При клике на pin показываем карточку
-    var openCardClickHandler = function (evt) {
-      if (evt.target) {
-        window.card.similarCardListElement.insertAdjacentElement('afterbegin', window.card.renderedCard(arr));
+    var openCardClickHandler = function () {
+      var card = document.querySelector('.map__card');
+
+      if (card) {
+        card.remove();
       }
+
+      window.card.similarCardListElement.insertAdjacentElement('afterbegin', window.card.renderedCard(arr));
     };
 
     adsElement.addEventListener('click', function (evt) {
@@ -53,12 +57,17 @@
       }
     }
 
+    var card = document.querySelector('.map__card');
+
+    card.remove();
+
     window.map.showPin();
+    window.form.checkCountRoom(window.form.roomCount.value);
   };
 
   window.pin = {
     similarListElement: similarListElement,
-    renderedPins: renderedPins,
+    createPins: createPins,
     cleanPins: cleanPins
   };
 
