@@ -2,14 +2,11 @@
 
 (function () {
   var mapFilters = document.querySelector('.map__filters');
-  var mapFeatures = mapFilters.querySelector('#housing-features');
+  var mapFeatures = mapFilters.querySelectorAll('#housing-features input');
   var housingType = mapFilters.querySelector('#housing-type');
   var housingPrice = mapFilters.querySelector('#housing-price');
   var housingRooms = mapFilters.querySelector('#housing-rooms');
   var housingGuests = mapFilters.querySelector('#housing-guests');
-  var featuresItems = mapFeatures.querySelectorAll('input[type="checkbox"]:checked');
-
-  var checkedFeatures = [];
 
   var priceList = {
     LOW: 'low',
@@ -24,11 +21,11 @@
   };
 
   var getHousingRooms = function (el) {
-    return housingRooms.value === 'any' ? true : el.offer.rooms.toString() === housingRooms.value;
+    return housingRooms.value === 'any' ? true : el.offer.rooms === Number(housingRooms.value);
   };
 
   var getHousingGuests = function (el) {
-    return housingGuests.value === 'any' ? true : el.offer.guests.toString() === housingGuests.value;
+    return housingGuests.value === 'any' ? true : el.offer.guests === Number(housingGuests.value);
   };
 
   var getHousingPrice = function (el) {
@@ -40,12 +37,13 @@
     }
   };
 
-  checkedFeatures = [].map.call(featuresItems, function (el) {
-    return el.value;
-  });
 
   var getFeaturesList = function (el) {
-    return checkedFeatures.every(function (currentFeature) {
+    return Array.from(mapFeatures).filter(function (element) {
+      return element.checked;
+    }).map(function (element) {
+      return element.value;
+    }).every(function (currentFeature) {
       return el.offer.features.includes(currentFeature);
     });
   };
