@@ -59,7 +59,9 @@
       var cardCloseClickHandler = function () {
         var card = document.querySelector('.map__card');
 
-        card.remove();
+        if (card) {
+          card.remove();
+        }
       };
 
       var cardCloseEscKeydownHandler = function (evt) {
