@@ -59,18 +59,22 @@
       var cardCloseClickHandler = function () {
         var card = document.querySelector('.map__card');
 
-        card.remove();
+        if (card) {
+          card.remove();
+        }
       };
 
-      cardClose.addEventListener('click', function () {
-        cardCloseClickHandler();
-      });
-
-      document.addEventListener('keydown', function (evt) {
+      var cardCloseEscKeydownHandler = function (evt) {
         if (evt.keyCode === window.util.ESC_KEYCODE) {
           cardCloseClickHandler();
         }
-      });
+
+        cardClose.removeEventListener('click', cardCloseClickHandler);
+        document.removeEventListener('keydown', cardCloseEscKeydownHandler);
+      };
+
+      cardClose.addEventListener('click', cardCloseClickHandler);
+      document.addEventListener('keydown', cardCloseEscKeydownHandler);
 
       return cardElement;
     }

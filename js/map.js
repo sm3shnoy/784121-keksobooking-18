@@ -29,13 +29,13 @@
     renderPins(window.filter.filters(ads));
   };
 
-  var renderPins = function (ads) {
+  var renderPins = window.debounce(function (ads) {
     var mapPins = document.querySelector('.map__pins');
 
     ads.forEach(function (it) {
       mapPins.appendChild(window.pin.createPins(it));
     });
-  };
+  });
 
   var errorHandler = function () {
     var templateError = document.querySelector('#error').content.querySelector('.error');
