@@ -6,6 +6,7 @@
   var avatar = document.querySelector('#avatar');
   var images = document.querySelector('#images');
   var DEFAULT_AVATAR = 'img/muffin-grey.svg';
+  var photos = document.querySelectorAll('.ad-form__photo');
 
   var ImagesStyles = {
     WIDTH: '70px',
@@ -25,6 +26,11 @@
   };
 
   var addImages = function (src) {
+    for (var i = 0; i < photos.length; i++) {
+      if (!photos[i].classList.contains('.ad-form__photo--added')) {
+        photos[i].remove();
+      }
+    }
     var newImageWrap = document.createElement('div');
     var image = document.createElement('img');
     newImageWrap.classList.add('ad-form__photo');
