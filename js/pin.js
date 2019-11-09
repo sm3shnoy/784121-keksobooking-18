@@ -50,6 +50,8 @@
     window.form.form.classList.add('ad-form--disabled');
     window.form.form.reset();
     window.map.map.classList.add('map--faded');
+    window.loadImage.deactivate();
+    window.loadImage.remove();
 
     for (var i = 0; i < pins.length; i++) {
       if (!pins[i].classList.contains('map__pin--main')) {
@@ -59,7 +61,9 @@
 
     var card = document.querySelector('.map__card');
 
-    card.remove();
+    if (card) {
+      card.remove();
+    }
 
     window.map.showPin();
     window.form.checkCountRoom(window.form.roomCount.value);

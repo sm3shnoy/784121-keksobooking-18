@@ -83,7 +83,7 @@
     window.backend.load(successHandler, errorHandler);
 
     addressField.setAttribute('readonly', true);
-
+    window.loadImage.activate();
     mainPin.removeEventListener('keydown', pinEnableEnterPressHandler);
     mainPin.removeEventListener('click', pinEnableClickdownHandler);
   };
