@@ -86,6 +86,9 @@
     window.loadImage.activate();
     mainPin.removeEventListener('keydown', pinEnableEnterPressHandler);
     mainPin.removeEventListener('click', pinEnableClickdownHandler);
+
+    var cleanFormBtn = document.querySelector('.ad-form__reset');
+    cleanFormBtn.addEventListener('click', window.pin.cleanPins);
   };
 
   var pinEnableEnterPressHandler = function (evt) {

@@ -67,6 +67,9 @@
 
     window.map.showPin();
     window.form.checkCountRoom(window.form.roomCount.value);
+
+    var cleanFormBtn = document.querySelector('.ad-form__reset');
+    cleanFormBtn.removeEventListener('click', window.pin.cleanPins);
   };
 
   window.pin = {
