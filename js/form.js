@@ -9,6 +9,13 @@
     100: [0]
   };
 
+  var placeCost = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+
   // Делаем группы полей неактивными
   var formElement = document.querySelector('.ad-form--disabled');
 
@@ -20,20 +27,8 @@
 
   // Проверка валидности типа жилья
   typePlace.addEventListener('change', function () {
-    var price = 0;
-
-    if (typePlace.value === 'bungalo') {
-      price = 0;
-    } else if (typePlace.value === 'flat') {
-      price = 1000;
-    } else if (typePlace.value === 'house') {
-      price = 5000;
-    } else {
-      price = 10000;
-    }
-
-    adPrice.placeholder = price;
-    adPrice.min = price;
+    adPrice.placeholder = placeCost[typePlace.value];
+    adPrice.min = placeCost[typePlace.value];
   });
 
   // Проверка валидности комната - гость

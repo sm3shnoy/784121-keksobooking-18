@@ -8,7 +8,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === window.util.HTTP_STATUS_OK) {
         successHandler(xhr.response);
       } else {
         errorHandler('Произошла ошибка: ' + xhr.status + ' ' + xhr.statusText);
@@ -19,7 +19,7 @@
       errorHandler('Произошла ошибка!');
     });
 
-    xhr.open('GET', URL);
+    xhr.open(window.util.GET, URL);
     xhr.send();
   };
 
@@ -29,7 +29,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === window.util.HTTP_STATUS_OK) {
         successHandler(xhr.response);
       } else {
         errorHandler('Произошла ошибка: ' + xhr.status + ' ' + xhr.statusText);
@@ -40,7 +40,7 @@
       errorHandler('Произошла ошибка!');
     });
 
-    xhr.open('POST', URL);
+    xhr.open(window.util.POST, URL);
     xhr.send(data);
   };
 

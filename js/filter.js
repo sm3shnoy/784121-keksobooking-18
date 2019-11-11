@@ -7,6 +7,7 @@
   var housingPrice = mapFilters.querySelector('#housing-price');
   var housingRooms = mapFilters.querySelector('#housing-rooms');
   var housingGuests = mapFilters.querySelector('#housing-guests');
+  var ANY = 'any';
 
   var PriceList = {
     LOW: 'low',
@@ -17,15 +18,15 @@
   };
 
   var getHousingType = function (el) {
-    return housingType.value === 'any' ? true : el.offer.type === housingType.value;
+    return housingType.value === ANY ? true : el.offer.type === housingType.value;
   };
 
   var getHousingRooms = function (el) {
-    return housingRooms.value === 'any' ? true : el.offer.rooms === Number(housingRooms.value);
+    return housingRooms.value === ANY ? true : el.offer.rooms === Number(housingRooms.value);
   };
 
   var getHousingGuests = function (el) {
-    return housingGuests.value === 'any' ? true : el.offer.guests === Number(housingGuests.value);
+    return housingGuests.value === ANY ? true : el.offer.guests === Number(housingGuests.value);
   };
 
   var getHousingPrice = function (el) {

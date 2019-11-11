@@ -50,7 +50,9 @@
     var mapPins = document.querySelector('.map__pins');
     var mainPin = document.querySelector('.map__pin--main');
     var mapFilters = document.querySelector('.map__filters');
+    var adPrice = document.querySelector('#price');
 
+    adPrice.placeholder = 1000;
     mapFilters.reset();
     mainPin.style.left = mainPinDefaultPos.left;
     mainPin.style.top = mainPinDefaultPos.top;
