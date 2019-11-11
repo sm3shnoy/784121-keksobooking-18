@@ -48,7 +48,7 @@
     });
   };
 
-  var filters = function (data) {
+  var getFilters = function (data) {
     return data.filter(function (el) {
       return getHousingType(el) &&
              getHousingPrice(el) &&
@@ -61,7 +61,7 @@
   mapFilters.addEventListener('change', function () {
     removeElements();
 
-    window.map.renderPins(filters(window.adsData));
+    window.map.renderPins(getFilters(window.adsData));
   });
 
   var removeElements = function () {
@@ -72,6 +72,6 @@
   };
 
   window.filter = {
-    filters: filters
+    getFilters: getFilters
   };
 })();

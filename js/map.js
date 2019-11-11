@@ -26,7 +26,7 @@
   // Добавляем метки на карту
   var successHandler = function (ads) {
     window.adsData = ads;
-    renderPins(window.filter.filters(ads));
+    renderPins(window.filter.getFilters(ads));
   };
 
   var renderPins = window.debounce(function (ads) {
