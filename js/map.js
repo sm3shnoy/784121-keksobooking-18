@@ -163,7 +163,7 @@
     var mainPinMouseupHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      addressField.value = mainPin.style.left + ' ' + mainPin.style.top;
+      addressField.value = parseInt(mainPin.style.left, 10) + ' ' + parseInt(mainPin.style.top, 10);
 
       document.removeEventListener('mousemove', mainPinMousemoveHandler);
       document.removeEventListener('mouseup', mainPinMouseupHandler);

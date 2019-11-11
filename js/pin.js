@@ -42,9 +42,18 @@
 
   // Удаляем пины при успешной отправке формы
   var cleanPins = function () {
+    var mainPinDefaultPos = {
+      left: '570px',
+      top: '375px'
+    };
     var pins = document.querySelectorAll('.map__pin');
     var mapPins = document.querySelector('.map__pins');
+    var mainPin = document.querySelector('.map__pin--main');
+    var mapFilters = document.querySelector('.map__filters');
 
+    mapFilters.reset();
+    mainPin.style.left = mainPinDefaultPos.left;
+    mainPin.style.top = mainPinDefaultPos.top;
     window.form.elementsDisabled(window.form.formElement);
     window.form.elementsDisabled(window.map.mapFilters);
     window.form.form.classList.add('ad-form--disabled');
