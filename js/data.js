@@ -84,10 +84,10 @@
 
   // Генерируем объекты объявлений
   var getData = function () {
-    var arr = [];
+    var arrayMochaData = [];
 
     for (var i = 0; i <= COUNTER_ADS; i++) {
-      arr[i] = {
+      arrayMochaData[i] = {
         author: {
           avatar: MOCK.author.avatar[window.util.randomNumber(0, MOCK.author.avatar.length - 1)]
         },
@@ -111,7 +111,7 @@
       };
     }
 
-    return arr;
+    return arrayMochaData;
   };
 
   // Все объявления
