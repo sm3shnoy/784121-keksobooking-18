@@ -8,7 +8,7 @@
   var housingRooms = mapFilters.querySelector('#housing-rooms');
   var housingGuests = mapFilters.querySelector('#housing-guests');
 
-  var priceList = {
+  var PriceList = {
     LOW: 'low',
     MID: 'middle',
     HIGH: 'high',
@@ -30,9 +30,9 @@
 
   var getHousingPrice = function (el) {
     switch (housingPrice.value) {
-      case priceList.LOW: return el.offer.price <= priceList.MIN;
-      case priceList.MID: return el.offer.price >= priceList.MIN && el.offer.price <= priceList.MAX;
-      case priceList.HIGH: return el.offer.price >= priceList.MAX;
+      case PriceList.LOW: return el.offer.price <= PriceList.MIN;
+      case PriceList.MID: return el.offer.price >= PriceList.MIN && el.offer.price <= PriceList.MAX;
+      case PriceList.HIGH: return el.offer.price >= PriceList.MAX;
       default: return true;
     }
   };

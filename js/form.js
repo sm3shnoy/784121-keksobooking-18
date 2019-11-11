@@ -34,7 +34,7 @@
   var guestSelectOption = guestsCount.querySelectorAll('option');
 
   // Создаем объект количество комнат = определенное количество гостей
-  var roomsCount = {
+  var RoomsCount = {
     1: [1],
     2: [1, 2],
     3: [1, 2, 3],
@@ -48,7 +48,7 @@
     });
 
     // Разблокируем количество гостей в соответствии с выбранным количеством комнат
-    roomsCount[value].forEach(function (userChoice) {
+    RoomsCount[value].forEach(function (userChoice) {
       guestSelectOption.forEach(function (roomsCountUserChoice) {
         if (Number(roomsCountUserChoice.value) === userChoice) {
           roomsCountUserChoice.disabled = false;
