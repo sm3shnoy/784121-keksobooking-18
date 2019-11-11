@@ -22,7 +22,7 @@
         var featureLi = document.createElement('li');
 
         featureLi.className = 'popup__feature ' + 'popup__feature--' + arr.offer.features[i];
-        featureLi.innerHTML = arr.offer.features[i];
+        featureLi.textContent = arr.offer.features[i];
 
         cardElement.querySelector('.popup__features').appendChild(featureLi);
       }
