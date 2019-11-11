@@ -1,6 +1,14 @@
 'use strict';
 
 (function () {
+  // Создаем объект количество комнат = определенное количество гостей
+  var RoomsCount = {
+    1: [1],
+    2: [1, 2],
+    3: [1, 2, 3],
+    100: [0]
+  };
+
   // Делаем группы полей неактивными
   var formElement = document.querySelector('.ad-form--disabled');
 
@@ -32,14 +40,6 @@
   var roomCount = document.querySelector('#room_number');
   var guestsCount = document.querySelector('#capacity');
   var guestSelectOption = guestsCount.querySelectorAll('option');
-
-  // Создаем объект количество комнат = определенное количество гостей
-  var RoomsCount = {
-    1: [1],
-    2: [1, 2],
-    3: [1, 2, 3],
-    100: [0]
-  };
 
   var checkCountRoom = function (value) {
     // Блокируем выбор количества гостей
