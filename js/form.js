@@ -9,7 +9,7 @@
     100: [0]
   };
 
-  var placeCost = {
+  var PlaceCost = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
@@ -27,8 +27,8 @@
 
   // Проверка валидности типа жилья
   typePlace.addEventListener('change', function () {
-    adPrice.placeholder = placeCost[typePlace.value];
-    adPrice.min = placeCost[typePlace.value];
+    adPrice.placeholder = PlaceCost[typePlace.value];
+    adPrice.min = PlaceCost[typePlace.value];
   });
 
   // Проверка валидности комната - гость
